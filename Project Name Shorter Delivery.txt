@@ -1,69 +1,136 @@
-Project Name: Shorter Delivery
+Project Proposal
+Project Name: Shorter Delivery Multi-Platform Application
 
-Course: CSTP 2205 – AI Agent Project
+Course: CSTP 2204
 
-Group Members:
+Group Members: 
 - Hoang Duy Le (David)
 - Mackenzie Lin
-- Jianhua Yu (Jonny)
 - Diego Mayne
-Project Idea Description:
+- Jianhua Yu (Jonny)
 
-Shorter Delivery is a delivery support system that demonstrates a real AI agent controlling the decision-making logic for a delivery driver. The system is split into a .NET MAUI frontend and a Node.js backend, with the AI agent implemented in the backend as a core decision module.
+1. Project purpose  
+The goal of this project is to design and develop a cross-platform delivery application using C# and .NET technologies. The application, named “Shorter Delivery,” will run on multiple platforms (Android, iOS, and desktop) through .NET MAUI, providing a unified and scalable logistics solution.
 
-The main goal of the project is not just to build a UI, but to implement an autonomous Delivery Planning Agent that maintains an internal state, receives percepts from the environment (delivery data and driver actions), and selects actions based on rule-based and heuristic reasoning.
+The system is designed to improve the operational efficiency of delivery personnel by intelligently planning multi-stop routes. Couriers will enter a list of delivery destinations, and the application will generate an optimized route that minimizes travel time and fuel consumption. The app will serve as an integrated logistics assistant, combining route optimization, delivery tracking, and real-time decision support.
 
-The environment of the agent includes:
-- A set of delivery stops (addresses, priorities, and estimated travel times)
-- The current position and progress of the driver
-- The status of each delivery (pending, delivered, skipped)
+To enhance route planning beyond traditional navigation tools, the system includes an AI Agent layer that evaluates delivery constraints such as destination distance, traffic conditions, delivery priority, and time windows. This enables dynamic route adjustment and adaptive decision-making, transforming the application into an intelligent delivery management platform.
 
-The Delivery Planning Agent runs on the Node.js backend. It:
-- Stores and updates the delivery state
-- Plans an initial delivery order based on priority and estimated distance
-- Recalculates the remaining route when deliveries are skipped or delayed
-- Answers "co-pilot" style questions from the driver, such as:
-  - How many deliveries are left
-  - What is the estimated time to finish all deliveries
-  - Which delivery should be prioritized next
+In addition, Shorter Delivery will integrate a voice-enabled AI Co-pilot. The Co-pilot allows drivers (and optionally managers) to interact with the system using natural language voice commands, while the backend AI Agent interprets the intent and responds with context-aware guidance. This creates a hands-free, safer, and more intuitive experience during real-world delivery operations.
 
-A .NET MAUI application is used as the frontend. The MAUI app is responsible for:
-- Displaying the list of deliveries and their statuses
-- Showing the current suggested next stop
-- Providing a simple “Driver Co-pilot” screen where the driver can press predefined question buttons (or enter simple questions)
-- Sending driver actions (e.g., mark stop as delivered, skip stop, ask a question) to the backend
+2. APP Features  
 
-The AI agent itself does not rely on external AI services or large language models. All reasoning is implemented as a combination of:
-- Rule-based logic (e.g., always prioritize VIP deliveries)
-- Simple heuristic route planning (e.g., nearest neighbor based on estimated distance or time)
-- Internal state updates inside the Node.js agent module
+Manager Features  
+Managers use the app to coordinate delivery operations and monitor performance.
 
-This architecture allows us to clearly show the core AI agent concepts:
-- Percepts: updated delivery list, driver actions, and current position
-- Internal state: current route, remaining stops, delivery statuses, and time estimates
-- Actions: choose the next stop, replan the route, and generate explanatory answers for the driver
-- Agent loop: perceive -> update state -> decide -> act -> plain
+• Secure login and role-based access control  
+• Create and edit delivery orders with multiple destinations  
+• Assign couriers and schedule delivery time windows  
+• Real-time tracking of delivery status on a map view  
+• View route analytics and estimated completion times  
+• Dashboard with performance statistics (delivery time, efficiency, fuel estimate)  
+• Historical delivery records and reporting (per day/driver/route)  
+• Synchronization across devices through cloud storage  
+• Manager voice queries (e.g., “Show all delayed deliveries,” “Which driver will finish last today?”) processed via the AI Agent  
 
-The project focuses on a clean agent design and decision support for the driver, rather than full real-time navigation. Future extensions may include integration with real map APIs, traffic data, or a separate manager-facing agent for higher-level planning.
+These features allow managers to plan operations strategically, detect potential delays, and respond quickly to route changes or customer constraints.
 
-Technologies Used:
+Driver Features  
+Drivers use the mobile interface as an intelligent navigation and workflow assistant.
 
-- Frontend:
-  - .NET MAUI (C#) for cross-platform UI (Android/Windows)
-  - XAML and C# for page layout and interaction
-  - HTTP client in MAUI to communicate with the backend
+• Secure login and personal delivery dashboard  
+• View assigned delivery list with priorities and time windows  
+• AI-generated optimized multi-stop route  
+• Turn-by-turn navigation with Google Maps integration  
+• Mark packages as delivered, delayed, or failed with reason codes  
+• Voice-assisted navigation support (e.g., “Next stop?”, “How many deliveries left?”, “Can I skip this stop for now?”)  
+• Voice-enabled AI Co-pilot to answer questions such as:
+  - “When will I finish today?”
+  - “What should I deliver next?”
+  - “Which stops are high priority or VIP?”
+• Offline mode with local data caching  
+• Estimated arrival time for each destination, updated as progress changes  
+• Automatic progress synchronization to the manager dashboard  
+• Smart alerts when the driver is at risk of missing a time window or deviating too far from the planned route  
 
-- Backend:
-  - Node.js for server-side logic
-  - Express.js for RESTful API endpoints between MAUI and the agent
-  - A custom Delivery Planning Agent module written in JavaScript/TypeScript
-  - In-memory data structures (or simple JSON storage) to represent delivery state
+The AI Agent continuously evaluates traffic data, delivery priorities, and the driver’s real-time progress to adjust routes dynamically and suggest practical next actions. The voice-enabled Co-pilot provides this guidance in a conversational and hands-free way.
 
-- AI Agent Logic:
-  - Rule-based decision logic for prioritising deliveries
-  - Heuristic-based route planning (e.g., nearest neighbor with priority)
-  - Explanatory message generation based on the agent’s internal state and decisions
+3. Technical Architecture Overview  
 
-- Tools and Collaboration:
-  - Git and GitHub for version control and team collaboration
-  - Visual Studio / Visual Studio Code for development
+The application will be built using C# and .NET technologies on the client side and Node.js on the server side, enabling cross-platform mobile development, flexible backend integration, and a scalable architecture.
+
+The mobile app will be developed using .NET MAUI, while the backend services will be implemented using Node.js and Express. The AI Agent logic runs on the backend as a separate module that integrates both rule-based planning and an LLM (Large Language Model) for natural language understanding and explanation.
+
+Component          Technology                                Purpose
+----------------------------------------------------------------------------------------------
+Frontend/Client    .NET MAUI (C#)                            Cross-platform UI for couriers and managers
+Backend API        Node.js + Express                         Authentication, delivery management, synchronization
+AI Route Agent     Node.js AI Agent + LLM integration        Intelligent multi-stop route decision-making and explanation
+Route Services     Google Maps APIs                          Traffic data, geocoding, and navigation support
+Database           MongoDB (cloud) + SQLite (local cache)    Cloud storage and offline local caching
+Voice Interface    Platform Speech APIs + MAUI integration   Speech-to-Text and Text-to-Speech for voice interaction
+
+The AI Agent acts as an orchestration layer between the mobile app, the delivery database, and the route services. It receives delivery constraints, queries map APIs, evaluates alternative paths, and selects the most efficient strategy. The LLM is used to interpret natural language questions and to generate human-friendly explanations, while the core route decisions remain under the control of the rule-based agent logic.
+
+This architecture allows future expansion toward autonomous logistics planning, smart fleet management, and richer conversational capabilities without changing the overall system structure.
+
+4. AI Agent Workflow  
+
+The AI Agent operates in the following decision pipeline:
+
+1. Collect delivery addresses and constraints  
+   - Delivery list (addresses, priorities, time windows, special notes)  
+   - Driver identity and current position  
+   - Manager-defined rules (e.g., VIP customers, maximum route length)
+
+2. Query Google Maps for traffic and distance data  
+   - Retrieve estimated travel times and distances between stops  
+   - Optionally detect incidents or heavy traffic segments
+
+3. Evaluate optimization strategies using AI reasoning  
+   - Apply rule-based and heuristic logic (e.g., prioritize VIP + nearest stop)  
+   - Consider time windows and potential late deliveries  
+   - Generate a proposed multi-stop delivery sequence
+
+4. Generate an adaptive delivery plan  
+   - Produce an ordered list of stops with ETA per stop  
+   - Store the plan in the backend and sync to the driver’s device  
+   - Provide a textual summary that can be spoken by the Co-pilot
+
+5. Continuously re-optimize during execution  
+   - Update state when stops are delivered, delayed, or failed  
+   - React to changes such as driver skipping a stop or unexpected delays  
+   - Recalculate the remaining route and update ETAs accordingly  
+   - Notify both driver and manager dashboards of significant changes
+
+5. Voice-Enabled AI Co-pilot Workflow  
+
+On top of the core planning pipeline, the system includes a voice-enabled AI Co-pilot that supports natural language interaction:
+
+1. Voice input capture (on .NET MAUI)  
+   - The driver or manager speaks a command or question (e.g., “How many stops do I have left?”)  
+   - The MAUI app uses platform Speech-to-Text to convert audio to text.
+
+2. Intent detection using LLM  
+   - The backend sends the text query to an LLM to classify it into a structured intent  
+     (e.g., DELIVERIES_LEFT, ETA_FINISH, NEXT_PRIORITY_STOP, SHOW_AT_RISK_DELIVERIES).
+
+3. Core AI Agent decision  
+   - The Delivery Planning Agent receives the intent and reads the current internal state  
+   - It computes the answer using rule-based and heuristic logic:
+     - Number of remaining deliveries  
+     - Estimated time to finish  
+     - Best next stop given priorities and time windows  
+     - List of deliveries at risk of being late
+
+4. Natural language response generation  
+   - The raw result (numbers, lists, ETAs) is optionally passed to the LLM  
+   - The LLM transforms it into a short, clear, and driver-friendly message  
+     (e.g., “You have 5 stops left and should be done in about 40 minutes.”)
+
+5. Output to the user  
+   - The backend sends the generated answer back to the MAUI app  
+   - The app displays the text and uses Text-to-Speech to read it aloud for hands-free use  
+   - This allows drivers to keep their focus on driving while still receiving intelligent guidance.
+
+This hybrid AI + API + LLM model ensures that route decisions are explainable and deterministic, while the language model provides flexible and natural interaction. The combination of multi-stop optimization, live re-planning, and voice-driven Co-pilot features makes Shorter Delivery both practical for real-world use and aligned with modern AI agent concepts.
