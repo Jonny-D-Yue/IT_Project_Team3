@@ -1,0 +1,69 @@
+Project Name: Shorter Delivery
+
+Course: CSTP 2205 – AI Agent Project
+
+Group Members:
+- Hoang Duy Le (David)
+- Mackenzie Lin
+- Jianhua Yu (Jonny)
+- Diego Mayne
+Project Idea Description:
+
+Shorter Delivery is a delivery support system that demonstrates a real AI agent controlling the decision-making logic for a delivery driver. The system is split into a .NET MAUI frontend and a Node.js backend, with the AI agent implemented in the backend as a core decision module.
+
+The main goal of the project is not just to build a UI, but to implement an autonomous Delivery Planning Agent that maintains an internal state, receives percepts from the environment (delivery data and driver actions), and selects actions based on rule-based and heuristic reasoning.
+
+The environment of the agent includes:
+- A set of delivery stops (addresses, priorities, and estimated travel times)
+- The current position and progress of the driver
+- The status of each delivery (pending, delivered, skipped)
+
+The Delivery Planning Agent runs on the Node.js backend. It:
+- Stores and updates the delivery state
+- Plans an initial delivery order based on priority and estimated distance
+- Recalculates the remaining route when deliveries are skipped or delayed
+- Answers "co-pilot" style questions from the driver, such as:
+  - How many deliveries are left
+  - What is the estimated time to finish all deliveries
+  - Which delivery should be prioritized next
+
+A .NET MAUI application is used as the frontend. The MAUI app is responsible for:
+- Displaying the list of deliveries and their statuses
+- Showing the current suggested next stop
+- Providing a simple “Driver Co-pilot” screen where the driver can press predefined question buttons (or enter simple questions)
+- Sending driver actions (e.g., mark stop as delivered, skip stop, ask a question) to the backend
+
+The AI agent itself does not rely on external AI services or large language models. All reasoning is implemented as a combination of:
+- Rule-based logic (e.g., always prioritize VIP deliveries)
+- Simple heuristic route planning (e.g., nearest neighbor based on estimated distance or time)
+- Internal state updates inside the Node.js agent module
+
+This architecture allows us to clearly show the core AI agent concepts:
+- Percepts: updated delivery list, driver actions, and current position
+- Internal state: current route, remaining stops, delivery statuses, and time estimates
+- Actions: choose the next stop, replan the route, and generate explanatory answers for the driver
+- Agent loop: perceive -> update state -> decide -> act -> plain
+
+The project focuses on a clean agent design and decision support for the driver, rather than full real-time navigation. Future extensions may include integration with real map APIs, traffic data, or a separate manager-facing agent for higher-level planning.
+
+Technologies Used:
+
+- Frontend:
+  - .NET MAUI (C#) for cross-platform UI (Android/Windows)
+  - XAML and C# for page layout and interaction
+  - HTTP client in MAUI to communicate with the backend
+
+- Backend:
+  - Node.js for server-side logic
+  - Express.js for RESTful API endpoints between MAUI and the agent
+  - A custom Delivery Planning Agent module written in JavaScript/TypeScript
+  - In-memory data structures (or simple JSON storage) to represent delivery state
+
+- AI Agent Logic:
+  - Rule-based decision logic for prioritising deliveries
+  - Heuristic-based route planning (e.g., nearest neighbor with priority)
+  - Explanatory message generation based on the agent’s internal state and decisions
+
+- Tools and Collaboration:
+  - Git and GitHub for version control and team collaboration
+  - Visual Studio / Visual Studio Code for development
