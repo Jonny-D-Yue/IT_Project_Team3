@@ -1,0 +1,108 @@
+EaterAI – Goal-Oriented AI Food Assistant for Diners
+1. Project Overview
+EaterAI is a goal-oriented AI agent designed to help diners decide what to eat at restaurants.
+
+It allows users to chat with an intelligent AI assistant that understands dietary preferences, allergies, health goals, budget constraints, and cravings.
+
+EaterAI acts as a personal food copilot that helps users make smarter and more personalized dining decisions.
+
+This system focuses entirely on enhancing the customer experience.
+2. Problem Statement
+Many diners struggle with large menus, dietary restrictions, calorie tracking, and making healthy decisions.
+
+Most current solutions only provide static menu browsing without intelligent guidance.
+
+EaterAI solves this problem by combining AI reasoning, user data, and restaurant menus into one smart assistant.
+3. Project Goals
+• Build a full-stack AI agent system.
+• Provide personalized, context-aware food recommendations.
+• Implement conversational memory.
+• Use MongoDB for flexible data storage.
+• Demonstrate microservice architecture using .NET MAUI, ASP.NET Core, and Python.
+4. Core Features
+User Profile & Preferences:
+- Register/Login
+- Select diet type
+- Choose allergies
+- Set eating goals
+
+Smart Menu Browser:
+- Filter by vegan, spicy, low-calorie, high-protein
+- Sort by price, calories, popularity
+- View detailed dish information
+
+AI Chat Agent:
+- Understand natural language requests
+- Apply constraints and ranking logic
+- Generate explanation-based recommendations
+
+Eating History & Statistics:
+- Log meals
+- Weekly calorie estimation
+- Fun eating statistics
+
+Favorites & Collections:
+- Save favorite dishes
+- Create themed collections
+5. AI Agent Design
+Memory:
+- Stores conversation history
+- Remembers preferences and past recommendations
+
+Tool Usage:
+- Fetch menu data
+- Filter by diet and allergy
+- Rank by calories, protein, or budget
+- Calculate statistics
+
+Planning & Reasoning:
+1. Detect user goal
+2. Apply constraints
+3. Rank valid dishes
+4. Build combos if needed
+5. Generate explanation
+
+The agent behaves like a smart waiter rather than a simple chatbot.
+6. Technology Stack
+Frontend:
+- .NET MAUI
+
+Backend:
+- ASP.NET Core Web API
+- JWT Authentication
+
+AI Service:
+- Python + FastAPI
+
+Database:
+- MongoDB Atlas
+7. System Architecture
+.NET MAUI App
+        ↓
+ASP.NET Core API
+        ↓
+Python AI Agent Service
+        ↓
+MongoDB
+8. Team Roles
+Member 1 – Backend & Database:
+- Design MongoDB schema
+- Implement ASP.NET APIs
+- Integrate AI service
+
+Member 2 – AI Agent Engineer:
+- Implement reasoning logic
+- Handle memory and planning
+
+Member 3 – Frontend Developer:
+- Build MAUI UI
+- Implement chat interface
+
+Member 4 – QA & Integration:
+- Testing
+- Integration
+- Documentation
+9. Conclusion
+EaterAI is a goal-driven AI agent that enhances the dining experience through intelligent recommendations, conversational memory, and personalized guidance.
+
+The project demonstrates full-stack engineering, AI integration, and real-world system design.
