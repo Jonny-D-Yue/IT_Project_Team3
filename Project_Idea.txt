@@ -1,4 +1,9 @@
 EaterAI – Goal-Oriented AI Food Assistant for Diners
+- Hoang Duy Le 
+- Jonny Yu
+- Mackenzie Lin
+- Diego Mayne
+
 1. Project Overview
 EaterAI is a goal-oriented AI agent designed to help diners decide what to eat at restaurants.
 
@@ -85,20 +90,20 @@ Python AI Agent Service
         ↓
 MongoDB
 8. Team Roles
-Member 1 – Backend & Database:
+Hoang Duy Le – Backend & Database:
 - Design MongoDB schema
 - Implement ASP.NET APIs
 - Integrate AI service
 
-Member 2 – AI Agent Engineer:
+Jonny Yu – AI Agent Engineer:
 - Implement reasoning logic
 - Handle memory and planning
 
-Member 3 – Frontend Developer:
+Diego Mayne – Frontend Developer:
 - Build MAUI UI
 - Implement chat interface
 
-Member 4 – QA & Integration:
+Mackenzie Lin – QA & Integration:
 - Testing
 - Integration
 - Documentation
