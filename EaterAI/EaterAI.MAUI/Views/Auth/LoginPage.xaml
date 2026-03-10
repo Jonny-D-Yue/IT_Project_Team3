@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EaterAI.MAUI.ViewModels.Auth"
+             xmlns:converters="clr-namespace:EaterAI.MAUI.Converters"
+             x:Class="EaterAI.MAUI.Views.Auth.LoginPage"
+             x:DataType="vm:LoginViewModel"
+             Title="EaterAI">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="32" Spacing="16" VerticalOptions="Center">
+
+            <Label Text="EaterAI"
+                   FontSize="36"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,24" />
+
+            <Entry Placeholder="Email"
+                   Text="{Binding Email}"
+                   Keyboard="Email"
+                   AutomationId="EmailEntry" />
+
+            <Entry Placeholder="Password"
+                   Text="{Binding Password}"
+                   IsPassword="True"
+                   AutomationId="PasswordEntry" />
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   IsVisible="{Binding ErrorMessage, Converter={x:Static converters:StringConverters.IsNotNullOrEmpty}}"
+                   HorizontalOptions="Center" />
+
+            <Button Text="Login"
+                    Command="{Binding LoginCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={x:Static converters:BoolConverters.Not}}"
+                    Margin="0,8,0,0" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               HorizontalOptions="Center" />
+
+            <!-- Voice login section (disabled) -->
+            <VerticalStackLayout IsVisible="False">
+                <Label Text="— or —"
+                       HorizontalOptions="Center"
+                       TextColor="Gray"
+                       Margin="0,8,0,0" />
+
+                <Button Text="🎤 Voice Login"
+                        Command="{Binding VoiceLoginCommand}"
+                        IsEnabled="{Binding IsVoiceListening, Converter={x:Static converters:BoolConverters.Not}}"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource Primary}"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="1"
+                        CornerRadius="8" />
+
+                <ActivityIndicator IsRunning="{Binding IsVoiceListening}"
+                                   IsVisible="{Binding IsVoiceListening}"
+                                   HorizontalOptions="Center" />
+
+                <Label Text="{Binding VoiceLoginStatus}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Gray"
+                       IsVisible="{Binding VoiceLoginStatus, Converter={x:Static converters:StringConverters.IsNotNullOrEmpty}}" />
+            </VerticalStackLayout>
+
+            <Label HorizontalOptions="Center"
+                   Margin="0,16,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Don't have an account? " />
+                        <Span Text="Register"
+                              TextColor="{StaticResource Primary}"
+                              TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnRegisterTapped" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

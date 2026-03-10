@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EaterAI.MAUI.ViewModels.Profile"
+             xmlns:converters="clr-namespace:EaterAI.MAUI.Converters"
+             x:Class="EaterAI.MAUI.Views.Profile.ProfilePage"
+             x:DataType="vm:ProfileViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+
+            <Label Text="Profile"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   Margin="0,0,0,8" />
+
+            <Label Text="Display Name" FontAttributes="Bold" />
+            <Entry Placeholder="Display Name"
+                   Text="{Binding DisplayName}" />
+
+            <Label Text="Diet Type" FontAttributes="Bold" />
+            <Picker Title="Select Diet Type"
+                    ItemsSource="{Binding DietTypes}"
+                    SelectedItem="{Binding DietType}" />
+
+            <Label Text="Budget per Meal" FontAttributes="Bold" />
+            <Entry Placeholder="0.00"
+                   Text="{Binding Budget}"
+                   Keyboard="Numeric" />
+
+            <Label Text="Language" FontAttributes="Bold" />
+            <Picker Title="Select Language"
+                    ItemsSource="{Binding Languages}"
+                    SelectedItem="{Binding SelectedLanguage}" />
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   IsVisible="{Binding ErrorMessage, Converter={x:Static converters:StringConverters.IsNotNullOrEmpty}}" />
+
+            <Button Text="Save"
+                    Command="{Binding SaveCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={x:Static converters:BoolConverters.Not}}"
+                    Margin="0,8,0,0" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               HorizontalOptions="Center" />
+
+            <BoxView HeightRequest="1" Color="LightGray" Margin="0,16" />
+
+            <Button Text="Logout"
+                    Command="{Binding LogoutCommand}"
+                    BackgroundColor="OrangeRed"
+                    TextColor="White" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

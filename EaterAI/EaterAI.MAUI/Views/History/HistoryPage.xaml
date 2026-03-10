@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EaterAI.MAUI.ViewModels.History"
+             xmlns:dto="clr-namespace:EaterAI.Shared.DTOs.Meal;assembly=EaterAI.Shared"
+             xmlns:converters="clr-namespace:EaterAI.MAUI.Converters"
+             x:Class="EaterAI.MAUI.Views.History.HistoryPage"
+             x:DataType="vm:HistoryViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Weekly Stats -->
+        <Border Grid.Row="0" Margin="16,12" Padding="16" StrokeShape="RoundRectangle 12">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="This Week" FontAttributes="Bold" FontSize="18" />
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                        <Label Text="{Binding Stats.TotalCalories, StringFormat='{0}'}"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                        <Label Text="Total Cal"
+                               TextColor="Gray"
+                               FontSize="11"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                        <Label Text="{Binding Stats.MealCount}"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                        <Label Text="Meals"
+                               TextColor="Gray"
+                               FontSize="11"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                        <Label Text="{Binding Stats.TopDish}"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               MaxLines="2"
+                               LineBreakMode="TailTruncation" />
+                        <Label Text="Top Dish"
+                               TextColor="Gray"
+                               FontSize="11"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Meal Log List -->
+        <Grid Grid.Row="1">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+
+            <CollectionView ItemsSource="{Binding Logs}"
+                            IsVisible="{Binding IsBusy, Converter={x:Static converters:BoolConverters.Not}}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:MealLogDto">
+                        <Border Margin="16,4" Padding="12" StrokeShape="RoundRectangle 8">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                    <Label Text="{Binding MenuItemName}"
+                                           FontAttributes="Bold"
+                                           FontSize="15" />
+                                    <Label Text="{Binding Timestamp, StringFormat='{0:MMM dd, HH:mm}'}"
+                                           TextColor="Gray"
+                                           FontSize="12" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1"
+                                       Text="{Binding Calories, StringFormat='{0} cal'}"
+                                       VerticalOptions="Center"
+                                       TextColor="Gray" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EaterAI.MAUI.ViewModels.Chat"
+             xmlns:dto="clr-namespace:EaterAI.Shared.DTOs.Chat;assembly=EaterAI.Shared"
+             xmlns:conv="clr-namespace:EaterAI.MAUI.Converters"
+             x:Class="EaterAI.MAUI.Views.Chat.ChatPage"
+             x:DataType="vm:ChatViewModel"
+             x:Name="ThisPage"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:RoleToAlignmentConverter x:Key="RoleToAlignment" />
+            <conv:RoleToColorConverter x:Key="RoleToColor" />
+            <conv:MicRecordingColorConverter x:Key="MicRecordingColor" />
+            <conv:TtsEnabledColorConverter x:Key="TtsEnabledColor" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- Messages -->
+        <Grid Grid.Row="0">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+
+            <CollectionView x:Name="MessagesCollectionView"
+                            ItemsSource="{Binding Messages}"
+                            SelectionMode="None"
+                            Margin="0,0,0,4">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:ChatMessageDto">
+                        <Grid Padding="12,4">
+                            <Border Padding="10,8"
+                                    StrokeShape="RoundRectangle 12"
+                                    HorizontalOptions="{Binding Role, Converter={StaticResource RoleToAlignment}}">
+                                <Border.Background>
+                                    <SolidColorBrush Color="{Binding Role, Converter={StaticResource RoleToColor}}" />
+                                </Border.Background>
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding Role}"
+                                           FontSize="10"
+                                           FontAttributes="Bold"
+                                           TextColor="Gray"
+                                           IsVisible="{Binding Content, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}" />
+                                    <Label Text="{Binding Content}"
+                                           FontSize="14"
+                                           IsVisible="{Binding Content, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}" />
+
+                                    <!-- Inline dish items: image + name per recommended dish -->
+                                    <StackLayout BindableLayout.ItemsSource="{Binding DishItems}"
+                                                 IsVisible="{Binding DishItems, Converter={x:Static conv:BoolConverters.IsListNotEmpty}}"
+                                                 Spacing="6"
+                                                 Margin="0,6,0,0">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate x:DataType="dto:DishItemDto">
+                                                <HorizontalStackLayout Spacing="10" Padding="0,2">
+                                                    <HorizontalStackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.DishItemTappedCommand, Source={x:Reference ThisPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </HorizontalStackLayout.GestureRecognizers>
+                                                    <Image Source="{Binding ImageUrl}"
+                                                           IsVisible="{Binding ImageUrl, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"
+                                                           WidthRequest="64"
+                                                           HeightRequest="64"
+                                                           Aspect="AspectFill" />
+                                                    <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                                                        <Label Text="{Binding Name}"
+                                                               FontSize="13"
+                                                               FontAttributes="Bold" />
+                                                        <Label Text="{Binding RestaurantName}"
+                                                               FontSize="11"
+                                                               TextColor="Gray"
+                                                               IsVisible="{Binding RestaurantName, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}" />
+                                                    </VerticalStackLayout>
+                                                </HorizontalStackLayout>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+
+                                    <Image Source="{Binding ImageUrl}"
+                                           IsVisible="{Binding ImageUrl, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"
+                                           Aspect="AspectFit"
+                                           HeightRequest="220"
+                                           Margin="0,4,0,0" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+
+        <!-- Input Bar -->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,Auto,Auto,Auto"
+              Padding="8,4"
+              ColumnSpacing="4">
+
+            <Border Grid.Column="0" StrokeShape="RoundRectangle 20" Padding="0">
+                <Entry x:Name="InputEntry"
+                       Text="{Binding InputText}"
+                       Placeholder="Type a message..."
+                       ReturnCommand="{Binding SendMessageCommand}"
+                       Margin="12,0" />
+            </Border>
+
+            <Button Grid.Column="1"
+                    Text="Send"
+                    Command="{Binding SendMessageCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={x:Static conv:BoolConverters.Not}}"
+                    WidthRequest="60" />
+
+            <Button Grid.Column="2"
+                    x:Name="MicButton"
+                    Text="&#127908;"
+                    BackgroundColor="{Binding IsMicRecording, Converter={StaticResource MicRecordingColor}}"
+                    Pressed="OnMicPressed"
+                    Released="OnMicReleased"
+                    WidthRequest="48" />
+
+            <Button Grid.Column="3"
+                    Text="&#128266;"
+                    BackgroundColor="{Binding IsTtsEnabled, Converter={StaticResource TtsEnabledColor}}"
+                    Clicked="OnTtsToggleClicked"
+                    WidthRequest="48" />
+
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

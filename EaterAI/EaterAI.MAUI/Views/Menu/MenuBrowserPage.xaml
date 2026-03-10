@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EaterAI.MAUI.ViewModels.Menu"
+             xmlns:dto="clr-namespace:EaterAI.Shared.DTOs.Menu;assembly=EaterAI.Shared"
+             xmlns:converters="clr-namespace:EaterAI.MAUI.Converters"
+             x:Class="EaterAI.MAUI.Views.Menu.MenuBrowserPage"
+             x:DataType="vm:MenuBrowserViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <!-- Restaurant Picker -->
+        <VerticalStackLayout Grid.Row="0" Padding="16,8">
+            <Label Text="Restaurant" FontAttributes="Bold" />
+            <Picker Title="Select Restaurant"
+                    ItemsSource="{Binding Restaurants}"
+                    SelectedItem="{Binding SelectedRestaurant}"
+                    ItemDisplayBinding="{Binding Name}" />
+        </VerticalStackLayout>
+
+        <!-- Filters -->
+        <ScrollView Grid.Row="1" Orientation="Horizontal" Padding="8,0">
+            <HorizontalStackLayout Spacing="8" Padding="8,4">
+                <HorizontalStackLayout Spacing="4">
+                    <CheckBox IsChecked="{Binding FilterVegan}" />
+                    <Label Text="Vegan" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="4">
+                    <CheckBox IsChecked="{Binding FilterSpicy}" />
+                    <Label Text="Spicy" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="4">
+                    <CheckBox IsChecked="{Binding FilterLowCal}" />
+                    <Label Text="Low-Cal" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="4">
+                    <CheckBox IsChecked="{Binding FilterHighProtein}" />
+                    <Label Text="High-Protein" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- Menu Items -->
+        <Grid Grid.Row="2">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+
+            <CollectionView x:Name="MenuCollectionView"
+                            ItemsSource="{Binding MenuItems}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnMenuItemSelected"
+                            IsVisible="{Binding IsBusy, Converter={x:Static converters:BoolConverters.Not}}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:MenuItemDto">
+                        <Border Margin="16,4" Padding="12" StrokeShape="RoundRectangle 8">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                <Image Grid.Column="0"
+                                       Source="{Binding ImageUrl}"
+                                       IsVisible="{Binding ImageUrl, Converter={x:Static converters:StringConverters.IsNotNullOrEmpty}}"
+                                       WidthRequest="56"
+                                       HeightRequest="56"
+                                       Aspect="AspectFill" />
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding Name}"
+                                           FontAttributes="Bold"
+                                           FontSize="16" />
+                                    <Label Text="{Binding Calories, StringFormat='{0} cal'}"
+                                           TextColor="Gray"
+                                           FontSize="13" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="2"
+                                       Text="{Binding Price, StringFormat='${0:F2}'}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

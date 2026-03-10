@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EaterAI.MAUI.ViewModels.Manager"
+             xmlns:dto="clr-namespace:EaterAI.Shared.DTOs.Manager;assembly=EaterAI.Shared"
+             xmlns:converters="clr-namespace:EaterAI.MAUI.Converters"
+             x:Class="EaterAI.MAUI.Views.Manager.ManagerDishDetailPage"
+             x:DataType="vm:ManagerDishDetailViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+
+            <!-- Dish image -->
+            <Image Source="{Binding Item.ImageUrl}"
+                   IsVisible="{Binding Item.ImageUrl, Converter={x:Static converters:StringConverters.IsNotNullOrEmpty}}"
+                   HeightRequest="220"
+                   Aspect="AspectFill"
+                   HorizontalOptions="Fill" />
+
+            <!-- Name + Type -->
+            <Label Text="{Binding Item.Name}" FontSize="22" FontAttributes="Bold" />
+            <Label Text="{Binding Item.DishType}" TextColor="SteelBlue" FontSize="13" />
+            <Label Text="{Binding Item.RestaurantName}" TextColor="Gray" FontSize="13" />
+
+            <!-- Price + Description -->
+            <Label Text="{Binding Item.Price, StringFormat='¥{0:F2}'}" FontSize="18" FontAttributes="Bold" TextColor="DarkOrange" />
+            <Label Text="{Binding Item.Description}" FontSize="14" />
+
+            <!-- Nutrition -->
+            <BoxView HeightRequest="1" Color="LightGray" Margin="0,4" />
+            <Label Text="Nutrition" FontAttributes="Bold" FontSize="15" />
+            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto">
+                <Label Grid.Row="0" Grid.Column="0" Text="Calories" FontSize="12" TextColor="Gray" HorizontalOptions="Center" />
+                <Label Grid.Row="0" Grid.Column="1" Text="Protein" FontSize="12" TextColor="Gray" HorizontalOptions="Center" />
+                <Label Grid.Row="0" Grid.Column="2" Text="Fat" FontSize="12" TextColor="Gray" HorizontalOptions="Center" />
+                <Label Grid.Row="0" Grid.Column="3" Text="Carbs" FontSize="12" TextColor="Gray" HorizontalOptions="Center" />
+                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Item.Calories, StringFormat='{0} kcal'}" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Item.Protein, StringFormat='{0:F1}g'}" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label Grid.Row="1" Grid.Column="2" Text="{Binding Item.Fat, StringFormat='{0:F1}g'}" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label Grid.Row="1" Grid.Column="3" Text="{Binding Item.Carbs, StringFormat='{0:F1}g'}" FontAttributes="Bold" HorizontalOptions="Center" />
+            </Grid>
+
+            <!-- Vegan / Spicy badges -->
+            <HorizontalStackLayout Spacing="8">
+                <Border IsVisible="{Binding Item.IsVegan}"
+                        BackgroundColor="MediumSeaGreen" Padding="8,4" StrokeShape="RoundRectangle 4">
+                    <Label Text="Vegan" TextColor="White" FontSize="12" />
+                </Border>
+                <Border IsVisible="{Binding Item.IsSpicy}"
+                        BackgroundColor="OrangeRed" Padding="8,4" StrokeShape="RoundRectangle 4">
+                    <Label Text="Spicy" TextColor="White" FontSize="12" />
+                </Border>
+            </HorizontalStackLayout>
+
+            <!-- Ingredients -->
+            <BoxView HeightRequest="1" Color="LightGray" Margin="0,4" />
+            <Label Text="Ingredients" FontAttributes="Bold" FontSize="15" />
+            <CollectionView ItemsSource="{Binding Item.Ingredients}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:IngredientDto">
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,3">
+                            <Label Grid.Column="0" Text="{Binding Name}" />
+                            <Label Grid.Column="1" Text="{Binding Amount}" TextColor="Gray" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Method -->
+            <BoxView HeightRequest="1" Color="LightGray" Margin="0,4" />
+            <Label Text="Cooking Method" FontAttributes="Bold" FontSize="15" />
+            <Label Text="{Binding Item.Method}" FontSize="14" LineBreakMode="WordWrap" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

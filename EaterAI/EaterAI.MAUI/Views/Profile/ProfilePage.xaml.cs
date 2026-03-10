@@ -1,0 +1,21 @@
+using EaterAI.MAUI.ViewModels.Profile;
+
+namespace EaterAI.MAUI.Views.Profile;
+
+public partial class ProfilePage : ContentPage
+{
+    private readonly ProfileViewModel _viewModel;
+
+    public ProfilePage(ProfileViewModel viewModel)
+    {
+        InitializeComponent();
+        _viewModel = viewModel;
+        BindingContext = viewModel;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.LoadProfileCommand.Execute(null);
+    }
+}

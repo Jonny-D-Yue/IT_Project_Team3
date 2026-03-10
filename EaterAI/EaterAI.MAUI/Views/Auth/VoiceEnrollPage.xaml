@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EaterAI.MAUI.ViewModels.Auth"
+             xmlns:converters="clr-namespace:EaterAI.MAUI.Converters"
+             x:Class="EaterAI.MAUI.Views.Auth.VoiceEnrollPage"
+             x:DataType="vm:VoiceEnrollViewModel"
+             Title="Voice Enrollment (Optional)">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="32" Spacing="20" VerticalOptions="Center">
+
+            <Label Text="Voice Enrollment"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Record 3 voice samples to enable voice login"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   TextColor="Gray" />
+
+            <ProgressBar Progress="{Binding CurrentSample, Converter={x:Static converters:StringConverters.IntToThirdProgress}}"
+                         ProgressColor="{StaticResource Primary}"
+                         Margin="0,8" />
+
+            <Label Text="{Binding Instruction}"
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,8" />
+
+            <Button Text="{Binding IsRecording, Converter={x:Static converters:BoolConverters.ToRecordingLabel}}"
+                    Command="{Binding RecordSampleCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={x:Static converters:BoolConverters.Not}}"
+                    BackgroundColor="{Binding IsRecording, Converter={x:Static converters:BoolConverters.ToRecordColor}}"
+                    TextColor="White"
+                    WidthRequest="120"
+                    HeightRequest="120"
+                    CornerRadius="60"
+                    HorizontalOptions="Center"
+                    FontSize="16" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               HorizontalOptions="Center" />
+
+            <Label Text="{Binding StatusMessage}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   TextColor="Gray"
+                   IsVisible="{Binding StatusMessage, Converter={x:Static converters:StringConverters.IsNotNullOrEmpty}}" />
+
+            <Button Text="Skip"
+                    Command="{Binding SkipCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="Gray"
+                    Margin="0,16,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
