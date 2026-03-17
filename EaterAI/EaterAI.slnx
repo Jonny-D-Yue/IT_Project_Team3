@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="EaterAI.API/EaterAI.API.csproj" />
-  <Project Path="EaterAI.MAUI/EaterAI.MAUI.csproj" />
-  <Project Path="EaterAI.Shared/EaterAI.Shared.csproj" />
-</Solution>

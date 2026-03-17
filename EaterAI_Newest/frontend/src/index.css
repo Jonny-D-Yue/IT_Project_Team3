@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap");
+@import "tailwindcss";
+
+:root {
+  --tm-bg: #fff8ef;
+  --tm-surface: #ffffff;
+  --tm-surface-muted: #fff2db;
+  --tm-border: #efd8b8;
+  --tm-text: #172033;
+  --tm-text-soft: #667085;
+  --tm-accent: #c96a16;
+  --tm-accent-dark: #8f3f0b;
+  --tm-success: #15803d;
+  --tm-danger: #dc2626;
+  --tm-shadow: 0 18px 40px rgba(125, 59, 12, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: "Manrope", sans-serif;
+  color: var(--tm-text);
+  background:
+    radial-gradient(circle at top left, rgba(249, 115, 22, 0.18), transparent 24%),
+    radial-gradient(circle at top right, rgba(245, 158, 11, 0.18), transparent 18%),
+    radial-gradient(circle at bottom right, rgba(251, 191, 36, 0.16), transparent 22%),
+    linear-gradient(180deg, #fffdf8 0%, var(--tm-bg) 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.panel {
+  border: 1px solid var(--tm-border);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--tm-shadow);
+}
+
+.customer-shell {
+  position: relative;
+}
+
+.customer-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.45), transparent 42%),
+    radial-gradient(circle at 20% 20%, rgba(255, 236, 212, 0.72), transparent 24%);
+  z-index: 0;
+}
+
+.customer-main {
+  position: relative;
+  z-index: 1;
+}
+
+.soft-grid {
+  background-image:
+    linear-gradient(rgba(201, 106, 22, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 106, 22, 0.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+@media (max-width: 640px) {
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(249, 115, 22, 0.16), transparent 30%),
+      radial-gradient(circle at top right, rgba(245, 158, 11, 0.12), transparent 24%),
+      linear-gradient(180deg, #fffdf8 0%, var(--tm-bg) 100%);
+  }
+
+  .panel {
+    box-shadow: 0 14px 30px rgba(125, 59, 12, 0.07);
+  }
+}
