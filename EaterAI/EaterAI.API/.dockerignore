@@ -1,9 +1,0 @@
-**/.git
-**/.vs
-**/bin
-**/obj
-**/node_modules
-EaterAI.MAUI/
-*.md
-.dockerignore
-Dockerfile
